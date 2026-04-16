@@ -1,0 +1,16 @@
+class Solution:
+    def stoneGame(self, piles: List[int]) -> bool:
+        dp = [[ -1 for i in range(len(piles))] for i in range(len(piles))]
+        def dfs(l,r):
+            if l > r:
+                return 0
+            if dp[l][r] != -1: return dp[l][r]
+            even = (r-l) % 2 == 0
+            left = piles[l] if even else 0
+            right = piles[r] if even else 0
+            dp[l][r] =  max(left+dfs(l+1,r),right+dfs(l,r-1))
+            return  dp[l][r]
+        alice = dfs(0,len(piles)-1)
+        return alice > sum(piles) - alice
+
+        
